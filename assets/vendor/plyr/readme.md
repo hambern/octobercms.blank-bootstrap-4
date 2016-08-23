@@ -20,6 +20,7 @@ We wanted a lightweight, accessible and customizable media player that supports 
 - **[API](#api)** - toggle playback, volume, seeking, and more
 - **[Events](#events)** - no messing around with Vimeo and YouTube APIs, all events are standardized across formats
 - **[Fullscreen](#fullscreen)** - supports native fullscreen with fallback to "full window" modes
+- **[Shortcuts](#shortcuts)** - supports keyboard shortcuts
 - **i18n support** - support for internationalization of controls
 - **No dependencies** - written in "vanilla" JavaScript, no jQuery required
 - **SASS and LESS** - to include in your build processes
@@ -75,7 +76,7 @@ ember addon:install ember-cli-plyr
 More info is on [npm](https://www.npmjs.com/package/ember-cli-plyr) and [GitHub](https://github.com/louisrudner/ember-cli-plyr)
 
 ## Quick setup
-Here's a quick run through on getting up and running.
+Here's a quick run through on getting up and running. There's also a [demo on Codepen](http://codepen.io/sampotts/pen/jARJYp).
 
 ### HTML
 Plyr extends upon the standard HTML5 markup so that's all you need for those types. More info on advanced HTML markup can be found under [initialising](#initialising).
@@ -121,7 +122,7 @@ Include the `plyr.js` script before the closing `</body>` tag and then call `ply
 If you want to use our CDN for the JavaScript, you can use the following:
 
 ```html
-<script src="https://cdn.plyr.io/1.9.0/plyr.js"></script>
+<script src="https://cdn.plyr.io/2.0.4/plyr.js"></script>
 ```
 
 ### CSS
@@ -134,11 +135,11 @@ Include the `plyr.css` stylsheet into your `<head>`
 If you want to use our CDN for the default CSS, you can use the following:
 
 ```html
-<link rel="stylesheet" href="https://cdn.plyr.io/1.9.0/plyr.css">
+<link rel="stylesheet" href="https://cdn.plyr.io/2.0.4/plyr.css">
 ```
 
 ### SVG Sprite
-The SVG sprite is loaded automatically from our CDN. To change this, see the [options](#Options) below. For reference, the CDN hosted SVG sprite can be found at `https://cdn.plyr.io/1.9.0/plyr.svg`.
+The SVG sprite is loaded automatically from our CDN. To change this, see the [options](#Options) below. For reference, the CDN hosted SVG sprite can be found at `https://cdn.plyr.io/2.0.4/plyr.svg`.
 
 ## Advanced
 
@@ -320,9 +321,9 @@ Note the single quotes encapsulating the JSON and double quotes on the object ke
     </tr>
     <tr>
       <td><code>keyboardShortcuts</code></td>
-      <td>Boolean</td>
-      <td><code>true</code></td>
-      <td>Enable <a href="#shortcuts">keyboard shortcuts</a></td>
+      <td>Object</td>
+      <td><code>{ focused: true, global: false }</code></td>
+      <td>Enable <a href="#shortcuts">keyboard shortcuts</a> for focused players only or globally as well (this will only work if there's one player in the document)</td>
     </tr>
     <tr>
       <td><code>tooltips</code></td>
@@ -872,46 +873,65 @@ More info on the respective API's here:
 *Please note*: not all API methods may work 100%. Your mileage may vary. It's better to use the universal plyr API where possible.
 
 ## Shortcuts
-By default, a focused player will bind the following keyboard shortcuts:
+By default, a player will bind the following keyboard shortcuts when it has focus. If you have the `global` option to `true` and there's only one player in the document then the shortcuts will work when any element has focus, apart from an element that requires input. 
 
 <table class="table" width="100%">
   <thead>
     <tr>
       <th width="25%">Key</th>
-      <th width="75%">Action</th>
+      <th width="25%">Global</th>
+      <th width="50%">Action</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><code>0</code> to <code>9</code></td>
+      <td>✔</td>
       <td>Seek from 0 to 90% respectively</td>
     </tr> 
     <tr>
-      <td><code>space</code> or <code>K</code></td>
+      <td><code>space</code></td>
+      <td></td>
       <td>Toggle playback</td>
     </tr>
     <tr>
+      <td><code>K</code></td>
+      <td>✔</td>
+      <td>Toggle playback</td>
+    </tr>
+    <tr>
+      <td><code>&larr;</code></td>
+      <td></td>
+      <td>Seek backward by the <code>seekTime</code> option</td>
+    </tr>
+    <tr>
       <td><code>&rarr;</code></td>
+      <td></td>
       <td>Seek forward by the <code>seekTime</code> option</td>
     </tr>
     <tr>
       <td><code>&uarr;</code></td>
+      <td></td>
       <td>Increase volume</td>
     </tr>
     <tr>
       <td><code>&darr;</code></td>
+      <td></td>
       <td>Decrease volume</td>
     </tr>
     <tr>
       <td><code>M</code></td>
+      <td>✔</td>
       <td>Toggle mute</td>
     </tr>
     <tr>
       <td><code>F</code></td>
+      <td>✔</td>
       <td>Toggle fullscreen</td>
     </tr>
     <tr>
       <td><code>C</code></td>
+      <td>✔</td>
       <td>Toggle captions</td>
     </tr>
   </tbody>
@@ -925,7 +945,7 @@ Because Plyr is an extension of the standard HTML5 video and audio elements, thi
 - Using [dash.js](https://github.com/Dash-Industry-Forum/dash.js) - [Demo](http://codepen.io/sampotts/pen/BzpJXN)
 
 ## Fullscreen
-Fullscreen in Plyr is supported by all browsers that [currently support it](http://caniuse.com/#feat=fullscreen). If you're using the default CSS, you can also use a "full browser" mode which will use the full browser window by adding the `plyr-fullscreen` class to your container.
+Fullscreen in Plyr is supported by all browsers that [currently support it](http://caniuse.com/#feat=fullscreen). 
 
 ## Browser support
 
@@ -990,6 +1010,11 @@ Plyr is developed by [@sam_potts](https://twitter.com/sam_potts) / [sampotts.me]
 
 ## Used by
 - [Selz.com](https://selz.com)
+- [Peugeot.fr](http://www.peugeot.fr/marque-et-technologie/technologies/peugeot-i-cockpit.html)
+- [Peugeot.de](http://www.peugeot.de/modelle/modellberater/208-3-turer/fotos-videos.html)
+- [TomTom.com](http://prioritydriving.tomtom.com/)
+- [DIGBMX](http://digbmx.com/)
+- [Grime Archive](https://grimearchive.com/)
 - [koel - A personal music streaming server that works.](http://koel.phanan.net/)
 - [Oscar Radio](http://oscar-radio.xyz/)
 
